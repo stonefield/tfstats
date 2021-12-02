@@ -1,0 +1,54 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH << File.expand_path('../../lib', __FILE__)
+require 'tfstats'
+
+def main
+  #STDERR.puts "Called with: #{ARGV.inspect}"
+  recursive = false
+  filespec = "*.tf"
+  directory = '.'
+  tabseparated = false
+  while arg = ARGV.shift
+    case arg
+    when 'help', '--help', '-h'
+      help
+    when '-r', 'recursive'
+      recursive = true
+    when '-f'
+      filespec = ARGV.shift
+    when '-v', 'verbose'
+      Tfstats.verbose = true
+    when '-t', 'tab'
+      tabseparated = true
+    else
+      directory = arg
+    end
+  end
+
+  Tfstats::Collector.collect(directory, filespec, recursive, tabseparated)
+end
+
+def help
+  puts HELP_TEXT
+  exit 3
+end
+
+HELP_TEXT = <<-DOC
+
+  This program collects terraform statistics.
+  You can also include this in projects with a rake task.
+
+  Usage: #{__FILE__.sub(/.*\//,'')} [options] [directory]
+
+  Commands:
+    -r / recursive    : run recursive.
+    -f <filespec>     : specify filespec. Defaults to '*.tf' (use single quote!)
+    -v / verbose      : Output debug information
+    -t / tab          : Tab separated output
+
+  If no directory is specified, statistics is collected from current directory
+
+DOC
+
+main

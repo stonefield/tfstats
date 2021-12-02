@@ -1,8 +1,12 @@
-# Tfstats
+# Tfstats - Terraform Statistics
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/tfstats`. To experiment with that code, run `bin/console` for an interactive prompt.
+This gem report code statistics (KLOCs, etc) from the terraform in current or specified directory. It also support recursion from a start point.
 
-TODO: Delete this and the text above, and describe your gem
+Supported:
+
+* `tfstats` - command line
+* `rake stats:terraform` - as a rake task
+
 
 ## Installation
 
@@ -20,9 +24,52 @@ Or install it yourself as:
 
     $ gem install tfstats
 
+
+### Installing rake task
+
+In your Rakefile add the following:
+
+```rake
+require 'rake/tfstats_task'
+Rake::TfstatsTask.new do |task|
+  task.directory = "."
+  task.filespec = "*.tf"
+  task.recursive = false
+  task.tabseparated = false
+end
+```
+
+All parameters are optional. The above shows the default:
+
+| Parameter | Description | Example |
+|---|---|---|
+| `directory` | Specify the directory to run from. The directory specified is relative to current directory |  `task.directory = "terraform"` |
+| `filespec` | You can specify a different filespec. |  `task.filespec = "*.{tf,sh,erb,tpl}"` |
+| `recursive` | Set to true to operate recursively on sub-directories. If no files are found in the directory, it will not be listed. |  `task.recursive = true` |
+| `tabseparated` | Output as a tab separated file and not as tabular text |  `task.tabseparated = true` |
+
 ## Usage
 
-TODO: Write usage instructions here
+### Run directly from command line
+
+```bash
+  Usage: tfstats [options] [directory]
+
+  Commands:
+    -r / recursive    : run recursive.
+    -f <filespec>     : specify filespec. Defaults to '*.tf' (use single quote!)
+    -v / verbose      : Output debug information
+    -t / tab          : Tab separated output
+
+  If no directory is specified, statistics is collected from current directory
+```
+
+
+### Run as a rake task
+
+```bash
+  rake stats:terraform
+```
 
 ## Development
 
