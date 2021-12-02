@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["knut.stenmark@gmail.com"]
 
   spec.summary       = %q{Collects statistics for terraform}
-  spec.description   = %q{Supports both comman line and rake task}
+  spec.description   = %q{Collects statistics for terraform - Supports both comman line and rake task}
   spec.homepage      = "https://github.com/stonefield/tfstats"
   spec.license       = "MIT"
   spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
