@@ -1,3 +1,4 @@
+require 'rake/tasklib'
 require 'tfstats'
 
 class Rake::TfstatsTask < Rake::TaskLib
