@@ -56,11 +56,12 @@ All parameters are optional. The above shows the default:
   Usage: tfstats [options] [directory]
 
   Commands:
-    -r / recursive    : run recursive.
     -f <filespec>     : specify filespec. Defaults to '*.tf' (use single quote!)
-    -v / verbose      : Output debug information
+    -r / recursive    : run recursive.
     -t / tab          : Tab separated output
-
+    -v / verbose      : Output debug information
+    -x / versions.    : Check versions of terraform and providers
+    
   If no directory is specified, statistics is collected from current directory
 ```
 
@@ -69,6 +70,14 @@ All parameters are optional. The above shows the default:
 
 ```bash
   rake stats:terraform
+```
+
+### Identify vesions used in a project
+
+The following command will list terraform versions and provider versions used in a project
+
+```bash
+  tfstats -r -x
 ```
 
 ## Development

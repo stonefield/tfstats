@@ -9,6 +9,7 @@ def main
   filespec = "*.tf"
   directory = '.'
   tabseparated = false
+  versions = false
   while arg = ARGV.shift
     case arg
     when 'help', '--help', '-h'
@@ -21,12 +22,17 @@ def main
       Tfstats.verbose = true
     when '-t', 'tab'
       tabseparated = true
+    when '-x', 'versions'
+      versions = true
     else
       directory = arg
     end
   end
-
-  Tfstats::Collector.collect(directory, filespec, recursive, tabseparated)
+  if versions
+    Tfstats::Collector.versions(directory, filespec, recursive, tabseparated)
+  else
+    Tfstats::Collector.collect(directory, filespec, recursive, tabseparated)
+  end
 end
 
 def help
@@ -42,10 +48,11 @@ HELP_TEXT = <<-DOC
   Usage: #{__FILE__.sub(/.*\//,'')} [options] [directory]
 
   Commands:
-    -r / recursive    : run recursive.
     -f <filespec>     : specify filespec. Defaults to '*.tf' (use single quote!)
-    -v / verbose      : Output debug information
+    -r / recursive    : run recursive.
     -t / tab          : Tab separated output
+    -v / verbose      : Output debug information
+    -x / versions.    : Check versions of terraform and providers
 
   If no directory is specified, statistics is collected from current directory
 
